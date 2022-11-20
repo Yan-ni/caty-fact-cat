@@ -41,15 +41,10 @@ def get_image() -> str:
 		img = Image.open(BytesIO(response.content))
 
 		image_width, _ = img.size
-		print(image_width)
 	
 	return cat_image_url
 
-get_image()
-
-
 if __name__ == '__main__':
-	exit()
 	ig_user_id = os.getenv('IG_USER_ID')
 
 	print('getting cat image...')
