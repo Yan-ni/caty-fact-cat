@@ -5,8 +5,11 @@ from dotenv import load_dotenv
 import os
 from io import BytesIO
 from PIL import Image
+from urllib import parse
 
 load_dotenv()
+
+hashtags = ['cat', 'cats', 'catsofinstagram', 'cats_of_instagram', 'catlove', 'catlover', 'catlovers', 'catloversclub', 'catlife', 'cats_of_world', 'catphoto', 'instacat', 'catoftheday', 'cats_of_day', 'catstagram', 'catsagram']
 
 def get_fact() -> str:
 	"""Requests cat fact api
@@ -21,6 +24,11 @@ def get_fact() -> str:
 	cat_fact = response.json()["data"][0]
 
 	return f'Did you know ! {cat_fact}'
+
+def get_caption() -> str:
+	fact = get_fact()
+
+	return f'{fact}\r\n\r\n{" ".join([f"#{hashtag}" for hashtag in hashtags])}'
 
 def get_image() -> str:
 	"""Requests cat iamge api until getting a valid image to post
@@ -51,7 +59,7 @@ if __name__ == '__main__':
 		print('getting cat image...')
 		image_url = get_image()
 		print('getting cat fact...')
-		caption = get_fact()
+		caption = get_caption()
 	except e:
 		print('failed.')
 		print(e)
@@ -60,6 +68,8 @@ if __name__ == '__main__':
 	access_token = os.getenv('ACCESS_TOKEN')
 
 	print('creating instagram media...')
+	image_url = parse.quote(image_url, safe='')
+	caption = parse.quote(caption, safe='')
 	res = requests.post(f'https://graph.facebook.com/v15.0/{ig_user_id}/media?image_url={image_url}&caption={caption}&access_token={access_token}')
 	res = res.json()
 
