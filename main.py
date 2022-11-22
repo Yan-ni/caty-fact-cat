@@ -26,7 +26,7 @@ def get_image() -> str:
 	"""Requests cat iamge api until getting a valid image to post
 
 	Returns:
-			str: the img url
+		str: the img url
 	"""
 	api_key = os.getenv('API_KEY')
 	image_extension = ''
@@ -47,16 +47,10 @@ def get_image() -> str:
 if __name__ == '__main__':
 	ig_user_id = os.getenv('IG_USER_ID')
 
-	print('getting cat image...')
 	try:
+		print('getting cat image...')
 		image_url = get_image()
-	except e:
-		print('failed.')
-		print(e)
-		exit()
-
-	print('getting cat fact...')
-	try:
+		print('getting cat fact...')
 		caption = get_fact()
 	except e:
 		print('failed.')
@@ -65,23 +59,23 @@ if __name__ == '__main__':
 
 	access_token = os.getenv('ACCESS_TOKEN')
 
-	print('posting image to instagram...')
+	print('creating instagram media...')
 	res = requests.post(f'https://graph.facebook.com/v15.0/{ig_user_id}/media?image_url={image_url}&caption={caption}&access_token={access_token}')
 	res = res.json()
 
-	if res.get('id') is None:
+	if 'id' not in res:
 		print('failed.')
 		print(json.dumps(res, indent=2))
 		exit()
 
-	container = res['id']
-	print('publishing the image...')
-	res = requests.post(f'https://graph.facebook.com/v15.0/{ig_user_id}/media_publish?creation_id={container}&access_token={access_token}')
+	media_id = res['id']
+	print('publishing the media...')
+	res = requests.post(f'https://graph.facebook.com/v15.0/{ig_user_id}/media_publish?creation_id={media_id}&access_token={access_token}')
 	res = res.json()
 
-	if res.get('id') is None:
+	if 'id' not in res:
 		print('failed.')
 		print(json.dumps(res, indent=2))
 		exit()
 
-	print('image published successfully.')
+	print('media published successfully.')
