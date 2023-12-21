@@ -6,8 +6,6 @@ import os
 from urllib import parse
 import requests
 import json
-from io import BytesIO
-from PIL import Image
 
 # Load environement variables
 load_dotenv()
@@ -45,18 +43,16 @@ def get_cat_image_url() -> str:
 	Returns:
 		str: the img url
 	"""
-	image_extension = ''
-	image_width = 0
+	cat_image_extension = ''
+	cat_image_width = 0
 
-	while image_extension not in ['.jpg', 'jpeg'] or image_width <= 320 or image_width >= 1440:
+	while cat_image_extension not in ['.jpg', 'jpeg'] or cat_image_width <= 320 or cat_image_width >= 1440:
 		response = requests.get(f'https://api.thecatapi.com/v1/images/search?api_key={CAT_IMAGE_API_KEY}')
-		cat_image_url = response.json()[0]["url"]
-		image_extension = cat_image_url[-4:]
-
-		response = requests.get(cat_image_url)
-		img = Image.open(BytesIO(response.content))
-
-		image_width, _ = img.size
+		response = response.json()
+		cat_image = response[0]
+		cat_image_url = cat_image.get("url") or ""
+		cat_image_extension = cat_image_url[-4:]
+		cat_image_width = cat_image.get("width") or 0
 
 	return cat_image_url
 
