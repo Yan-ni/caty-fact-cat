@@ -1,5 +1,5 @@
 import requests
-from config import CAT_IMAGE_API_KEY
+from .config import CAT_IMAGE_API_KEY
 
 class CatImage:
   @staticmethod

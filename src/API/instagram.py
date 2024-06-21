@@ -1,4 +1,4 @@
-from config import IG_USER_ID, IG_ACCESS_TOKEN, IG_API_VERSION
+from .config import IG_USER_ID, IG_ACCESS_TOKEN, IG_API_VERSION
 from urllib import parse
 import requests
 import json

@@ -40,17 +40,3 @@ Installing the required python libraries to run the script:
 ```shell
 pip3 install -r requirements.txt
 ```
-
-Setup the cron job for executing the script reccurently:
-
-```shell
-crontab -e
-```
-
-Add the following tasks:
-
-```shell
-0 */6 * * * cd ~/caty-fact-cat/ && ./main.py > ./poster.log 2>&1
-0 15 * * * cd ~/caty-fact-cat/ && ./main.py > ./poster.log 2>&1
-0 21 * * * cd ~/caty-fact-cat/ && ./main.py > ./poster.log 2>&1
-```
