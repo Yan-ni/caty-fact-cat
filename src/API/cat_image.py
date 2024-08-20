@@ -1,10 +1,11 @@
 import requests
+import logging
 from .config import CAT_IMAGE_API_KEY
 
 class CatImage:
   @staticmethod
   def get_url() -> str:
-    """Requests a cat iamge from the cat image API and returns the cat image url"""
+    """Requests a cat image from the cat image API and returns the cat image url"""
     cat_image_extension = ''
     cat_image_width = 0
 
@@ -16,7 +17,7 @@ class CatImage:
         response.raise_for_status()
         response_json = response.json()
       except Exception as e:
-        print(f'[EXCEPTION] {e}')
+        logging.debug(e)
         continue
 
       cat_image = response_json[0]
@@ -27,11 +28,13 @@ class CatImage:
         cat_image_width = cat_image.get("width") or 0
 
       if request_attempts == 10:
-        return None
+        logging.error('unable to retrieve suitable cat image')
+        exit()
 
       request_attempts += 1
 
     if cat_image_url is None:
-      return None
+      logging.error('api responded without a URL')
+      exit()
 
     return cat_image_url

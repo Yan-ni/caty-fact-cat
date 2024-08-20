@@ -2,6 +2,7 @@ from .config import IG_USER_ID, IG_ACCESS_TOKEN, IG_API_VERSION
 from urllib import parse
 import requests
 import json
+import logging
 
 class Instagram:
   @staticmethod
@@ -21,24 +22,25 @@ class Instagram:
       response = requests.post(f'https://graph.facebook.com/{IG_API_VERSION}/{IG_USER_ID}/media?image_url={image_url}&caption={caption}&access_token={IG_ACCESS_TOKEN}')
       response.raise_for_status()
     except Exception as e:
-      print('[ERROR] error occured while requesting instagram create media API.')
-      print(f'[EXCEPTION] {e}')
-      return None
+      logging.error('error occurred while requesting instagram create media API')
+      logging.debug(e)
+      exit()
 
     try:
       response_json = response.json()
     except Exception as e:
-      print('[ERROR] error occured while parsing instagram create media response.')
-      print(f'[EXCEPTION] {e}')
-      print('[CONTENT] {response.text}')
-      return None
+      logging.error('error occurred while parsing instagram create media response')
+      logging.debug(e)
+      logging.debug(response.text)
+      exit()
 
     try:
       ig_media_id = response_json['id']
     except KeyError as e:
-      print('[ERROR] error occured while accessing media id of instagram create media response.')
-      print(f'[EXCEPTION] {e}')
-      print(json.dumps(response_json, 4))
+      logging.error('error occurred while accessing media id of instagram create media response.')
+      logging.debug(e)
+      logging.debug(json.dumps(response_json, 4))
+      exit()
 
     return ig_media_id
 
@@ -50,23 +52,24 @@ class Instagram:
       response = requests.post(f'https://graph.facebook.com/{IG_API_VERSION}/{IG_USER_ID}/media_publish?creation_id={media_id}&access_token={IG_ACCESS_TOKEN}')
       response.raise_for_status()
     except Exception as e:
-      print('[ERROR] error occured while requesting instagram publish media API.')
-      print(f'[EXCEPTION] {e}')
-      return None
+      logging.error('error occurred while requesting instagram publish media API')
+      logging.debug(e)
+      exit()
 
     try:
       response_json = response.json()
     except Exception as e:
-      print('[ERROR] error occured while parsing instagram publish media response.')
-      print(f'[EXCEPTION] {e}')
-      print('[CONTENT] {response.text}')
-      return None
+      logging.error('error occurred while parsing instagram publish media response.')
+      logging.debug(e)
+      logging.debug(response.text)
+      exit()
 
     try:
       ig_media_publish_id = response_json['id']
     except Exception as e:
-      print('[ERROR] error occured while accessing media id of instagram publish media response.')
-      print(f'[EXCEPTION] {e}')
-      print(json.dumps(response_json, 4))
+      logging.error('error occurred while accessing media id of instagram publish media response.')
+      logging.debug(e)
+      logging.debug(json.dumps(response_json, 4))
+      exit()
 
     return ig_media_publish_id
