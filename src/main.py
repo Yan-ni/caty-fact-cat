@@ -1,5 +1,6 @@
 import API
 import utils
+import logging
 
 def main():
 	utils.setup_logging()
