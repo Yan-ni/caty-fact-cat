@@ -2,9 +2,20 @@ name: caty-fact-cat CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ prod ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: check the lint
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: pre-commit/action@v3.0.1
+
   deploy:
     runs-on: ubuntu-latest
 
@@ -18,5 +29,6 @@ jobs:
         port: 22
         script: |
           cd /root/caty-fact-cat
-          git pull origin main
-          git status
+          git pull origin prod
+          git checkout prod
+          docker compose build --no-cache
