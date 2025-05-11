@@ -1,3 +1,6 @@
-from .cat_fact import CatFact
-from .cat_image import CatImage
-from .instagram import Instagram
+import API.cat_fact as CatFact
+import API.cat_image as CatImage
+import API.instagram as Instagram
+
+
+__all__ = ["CatFact", "CatImage", "Instagram"]
