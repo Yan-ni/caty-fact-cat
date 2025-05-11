@@ -1,10 +1,10 @@
 import API
-import utils
+from utils.logging import setup_logging
 import logging
 
 
 def main():
-    utils.setup_logging()
+    setup_logging()
     logging.info("getting cat image")
     cat_image_url = API.CatImage.get_url()
 
@@ -19,7 +19,7 @@ def main():
     logging.info("publishing the media")
     ig_media_publish_id = API.Instagram.publish_media(ig_media_id)
 
-    logging.info("media published successfully")
+    logging.info(f"media published successfully : {ig_media_publish_id}")
 
 
 # Main function

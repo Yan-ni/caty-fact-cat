@@ -2,7 +2,7 @@ name: caty-fact-cat CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ prod ]
 
 jobs:
   deploy:
@@ -18,5 +18,6 @@ jobs:
         port: 22
         script: |
           cd /root/caty-fact-cat
-          git pull origin main
-          git status
+          git pull origin prod
+          git checkout prod
+          docker compose build --no-cache
