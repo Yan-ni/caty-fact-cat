@@ -1,7 +1,7 @@
 [project]
 name = "caty-fact-cat"
 version = "0.1.0"
-description = "A fun little project that leverages multiple APIs to create an Instagram bot which posts daily cat pictures along with interesting cat facts in the captions."
+description = "A fun little project that leverages multiple APIs to create an Instagram bot which posts daily cat pictures on Instagram along with interesting cat facts in the captions."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
